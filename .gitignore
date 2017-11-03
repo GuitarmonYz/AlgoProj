@@ -8,3 +8,11 @@
 *.zip
 *.tar.gz
 *.rar
+
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+
+# Output files
+out/
