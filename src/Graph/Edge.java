@@ -20,5 +20,9 @@ public class Edge {
         return vertex == v ? u:v;
     }
 
+    public boolean contains(int x) {
+        return this.u == x || this.v == x;
+    }
+
 
 }

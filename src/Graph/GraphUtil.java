@@ -6,7 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GraphUtil {
-    public Graph parseEdges(String file_path) throws IOException {
+    /**
+     * Load Graph from file
+     * @param file_path
+     * @return
+     * @throws IOException
+     */
+    public Graph loadGraph (String file_path) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(file_path));
         String line = br.readLine();
         String[] split_array = line.split(" ");
