@@ -34,7 +34,7 @@ public class GraphUtil {
     }
 
     /**
-     * Calculate the approximate lower bound by max matching
+     * Calculate the 2-approximate lower bound by max matching
      * @param g
      * @return
      */
@@ -45,7 +45,7 @@ public class GraphUtil {
         for (Edge e : g.getUnCoveredEdges()) {
             int u = e.endPoint();
             int v = e.endPoint(u);
-            if (!visitedVertices.contains(u)&&!visitedVertices.contains(v)){
+            if (!visitedVertices.contains(u) && !visitedVertices.contains(v)){
                 lowBound += 2;
                 LinkedList<Edge> u_adj = adj[u];
                 LinkedList<Edge> v_adj = adj[v];
