@@ -23,8 +23,8 @@ public class Graph {
      */
     public Graph(int V){
         this.V = V;
-        adj = new LinkedList[V];
-        for (int i = 0; i < V; i++) {
+        adj = new LinkedList[V+1];
+        for (int i = 1; i <= V; i++) {
             adj[i] = new LinkedList<Edge>();
         }
         coveredEdges = new HashSet<Edge>();
@@ -43,12 +43,12 @@ public class Graph {
     public Graph(Graph g) {
         this.V = g.V;
         this.E = g.E;
-        this.adj = new LinkedList[V];
+        this.adj = new LinkedList[V+1];
         this.coveredEdges = new HashSet<Edge>();
         this.unCoveredEdges = new HashSet<Edge>();
         this.coveredVertices = new HashSet<>();
         this.unCoveredVertices = new HashSet<>();
-        for (int i = 0; i < V ; i ++) {
+        for (int i = 1; i <= V ; i ++) {
             this.adj[i] = g.getAdj()[i];
         }
         for (Edge e : g.getCoveredEdges()) {
@@ -69,7 +69,7 @@ public class Graph {
     public void addEdge(int u, int v){
         Edge e = new Edge(u, v);
         adj[u].add(e);
-        adj[v].add(e);
+        //adj[v].add(e);
         this.unCoveredEdges.add(e);
         E++;
     }

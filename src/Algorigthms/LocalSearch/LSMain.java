@@ -43,7 +43,8 @@ public class LSMain {
 
 
     public void EdgeDeletion(){
-        HashSet<Edge> edges;
+        HashSet<Edge> edges = new HashSet<>(g.getEdges());
+
         int[] uv;
         while(!g.getUnCoveredEdges().isEmpty()){
             edges = g.getUnCoveredEdges();
