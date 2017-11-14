@@ -1,5 +1,6 @@
 package Graph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -116,6 +117,38 @@ public class Graph {
             }
             maxDegree = maxDegree < localMax ? localMax : maxDegree;
             targetVertex = maxDegree < localMax ? i : targetVertex;
+        }
+        return targetVertex;
+    }
+
+    public int getDegree(int curV){
+        //return the degree of current vertex
+        return this.adj[curV].size();
+    }
+
+    public ArrayList<Integer> getAdjV(int curV){
+        //get adjacent vertex array
+        ArrayList<Integer> adjV = new ArrayList<>();
+        for (Edge e : adj[curV]){
+            adjV.add(e.endPoint(curV));
+        }
+
+        return adjV;
+    }
+
+    public int getVisitedVertexWithLowestDegree () {
+        //For current VC solution, get the V in VC with min degree
+        int minDegree = 0;
+        int targetVertex = -1;
+        for (int i : coveredVertices){
+            int localMin = 0;
+            for (Edge e : this.adj[i]) {
+                if (!coveredVertices.contains(e.endPoint(i))){
+                    localMin++;
+                }
+            }
+            minDegree = minDegree > localMin ? localMin : minDegree;
+            targetVertex = minDegree < localMin ? i : targetVertex;
         }
         return targetVertex;
     }
