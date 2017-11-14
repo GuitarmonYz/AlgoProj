@@ -1,4 +1,5 @@
 import Graph.Edge;
+import Graph.VertexCover;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,7 +17,9 @@ public class Test {
         testSet.add(e1);
         testSet.add(e2);
         Test test = new Test();
-        test.testFinal();
+
+
+        //test.testFinal();
 
     }
     public void testFinal(){

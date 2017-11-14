@@ -33,16 +33,11 @@ public class GraphUtil {
         return g;
     }
 
-    /**
-     * Calculate the 2-approximate lower bound by max matching
-     * @param g
-     * @return
-     */
-    public static int getLowerBoundMaxMatch (Graph g) {
+
+    public static int getLowerBoundMaxMatch (HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
         int lowBound = 0;
-        LinkedList<Edge>[] adj = g.getAdj();
         HashSet<Integer> visitedVertices = new HashSet<>();
-        for (Edge e : g.getUnCoveredEdges()) {
+        for (Edge e : unCoveredEdges) {
             int u = e.endPoint();
             int v = e.endPoint(u);
             if (!visitedVertices.contains(u) && !visitedVertices.contains(v)){
@@ -58,5 +53,33 @@ public class GraphUtil {
             }
         }
         return lowBound;
+    }
+
+    public static int getHighestDegree (HashSet<Integer> unUsedVertices, HashSet<Integer> unCoveredVertices, LinkedList<Edge>[] adj) {
+        int maxDegree = 0;
+        int targetVertex = -1;
+        for (int i : unUsedVertices){
+            int localMax = 0;
+            for (Edge e : adj[i]) {
+                if (unCoveredVertices.contains(e.endPoint(i))){
+                    localMax++;
+                }
+            }
+            maxDegree = maxDegree < localMax ? localMax : maxDegree;
+            targetVertex = maxDegree < localMax ? i : targetVertex;
+        }
+        return targetVertex;
+    }
+
+    public static VertexCover addToVertexCover(VertexCover vc, LinkedList<Edge>[] adj, int v){
+        VertexCover new_vc = new VertexCover(vc);
+        new_vc.candidate.add(v);
+        LinkedList<Edge> v_adj = adj[v];
+        for (Edge e : v_adj) {
+            int u = e.endPoint(v);
+            new_vc.unCoveredVertices.remove(u);
+            new_vc.unCoveredEdges.remove(e);
+        }
+        return new_vc;
     }
 }

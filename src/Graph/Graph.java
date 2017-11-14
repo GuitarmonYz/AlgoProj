@@ -1,5 +1,6 @@
 package Graph;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -42,27 +43,11 @@ public class Graph {
     public Graph(Graph g) {
         this.V = g.V;
         this.E = g.E;
-        this.adj = new LinkedList[V];
-        this.coveredEdges = new HashSet<Edge>();
-        this.unCoveredEdges = new HashSet<Edge>();
-        this.coveredVertices = new HashSet<>();
-        this.unCoveredVertices = new HashSet<>();
-        for (int i = 0; i < V ; i ++) {
-            this.adj[i] = g.getAdj()[i];
-        }
-        for (Edge e : g.getCoveredEdges()) {
-            this.coveredEdges.add(e);
-        }
-        for (Edge e : g.getUnCoveredEdges()) {
-            this.unCoveredEdges.add(e);
-        }
-        for (int v : g.getCoveredVertices()) {
-            this.coveredVertices.add(v);
-        }
-        for (int v : g.getUnCoveredVertices()) {
-            this.unCoveredVertices.add(v);
-        }
-
+        this.adj = Arrays.copyOf(g.adj, g.adj.length);
+        this.coveredEdges = new HashSet<Edge>(g.coveredEdges);
+        this.unCoveredEdges = new HashSet<Edge>(g.unCoveredEdges);
+        this.coveredVertices = new HashSet<>(g.coveredVertices);
+        this.unCoveredVertices = new HashSet<>(g.unCoveredVertices);
     }
 
     public void addEdge(int u, int v){
@@ -72,54 +57,6 @@ public class Graph {
         this.unCoveredEdges.add(e);
         E++;
     }
-
-    public void visitVertex(int v){
-        this.coveredVertices.add(v);
-        this.unCoveredVertices.remove(v);
-        if (this.unCoveredEdges.size() < this.adj[v].size()){
-            for (Edge e : this.unCoveredEdges) {
-                if (e.contains(v)) {
-                    this.coveredEdges.add(e);
-                    this.unCoveredEdges.remove(e);
-                }
-            }
-        } else {
-            for (Edge e : this.adj[v]) {
-                if (this.unCoveredVertices.contains(e.endPoint(v))) {
-                    this.coveredEdges.add(e);
-                    this.unCoveredEdges.remove(e);
-                }
-            }
-        }
-    }
-
-    public void undoVisitVertex (int v) {
-        this.unCoveredVertices.add(v);
-        this.coveredVertices.remove(v);
-        for (Edge e : this.adj[v]) {
-            if (!this.coveredVertices.contains(e.endPoint(v))) {
-                this.coveredEdges.remove(e);
-                this.unCoveredEdges.add(e);
-            }
-        }
-    }
-
-    public int getHighestDegree () {
-        int maxDegree = 0;
-        int targetVertex = -1;
-        for (int i : unCoveredVertices){
-            int localMax = 0;
-            for (Edge e : this.adj[i]) {
-                if (!this.coveredVertices.contains(e.endPoint(i))){
-                    localMax++;
-                }
-            }
-            maxDegree = maxDegree < localMax ? localMax : maxDegree;
-            targetVertex = maxDegree < localMax ? i : targetVertex;
-        }
-        return targetVertex;
-    }
-
 
     public int numOfVertices(){
         return V;
