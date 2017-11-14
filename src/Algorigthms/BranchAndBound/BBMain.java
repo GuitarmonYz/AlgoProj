@@ -26,27 +26,30 @@ public class BBMain {
         long start = System.nanoTime();
         long end = start + cutOffTime;
         while (!stateStack.isEmpty()) {
-            if (System.nanoTime() >= end) break;
+            //if (System.nanoTime() >= end) break;
             VertexCover curVC = stateStack.poll();
             if (curVC.unCoveredEdges.isEmpty()) {
                 upperBound = curVC.candidate.size();
+                System.out.println(upperBound);
             } else if (curVC.candidate.size() < upperBound){
-                int v = GraphUtil.getHighestDegree(curVC.unUsedVertices, curVC.unCoveredVertices, g.getAdj());
+                int v = GraphUtil.getHighestDegree(curVC.unUsedVertices, curVC.unCoveredEdges, g.getAdj());
                 VertexCover VC1 = new VertexCover(curVC);
                 GraphUtil.addToVertexCover(VC1,g.getAdj(),v);
-                int LB1 = 1 + GraphUtil.getLowerBoundMaxMatch(VC1.unCoveredEdges, g.getAdj());
+                int LB1 = VC1.candidate.size() + GraphUtil.getLowerBoundMaxMatch(VC1.unCoveredEdges, g.getAdj());
                 VertexCover VC2 = new VertexCover(curVC);
                 LinkedList<Edge> v_adj = g.getAdj()[v];
                 for (Edge e : v_adj) {
-                    GraphUtil.addToVertexCover(VC1, g.getAdj(), e.endPoint(v));
+                    GraphUtil.addToVertexCover(VC2, g.getAdj(), e.endPoint(v));
                 }
-                int LB2 = v_adj.size() + GraphUtil.getLowerBoundMaxMatch(VC2.unCoveredEdges, g.getAdj());
+                int LB2 = VC2.candidate.size() + GraphUtil.getLowerBoundMaxMatch(VC2.unCoveredEdges, g.getAdj());
                 if (LB1 <= upperBound && LB2 <= upperBound) {
                     stateStack.add(VC1);
                     stateStack.add(VC2);
-                } else if (LB1 <= upperBound) {
+                }
+                if (LB1/2 <= upperBound) {
                     stateStack.add(VC1);
-                } else if (LB2 <= upperBound) {
+                }
+                if (LB2/2 <= upperBound) {
                     stateStack.add(VC2);
                 }
             }

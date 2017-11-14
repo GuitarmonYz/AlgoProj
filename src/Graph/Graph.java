@@ -23,8 +23,9 @@ public class Graph {
      */
     public Graph(int V){
         this.V = V;
+        //the first element in adj is dummy
         adj = new LinkedList[V+1];
-        for (int i = 0; i < V; i++) {
+        for (int i = 0; i <= V; i++) {
             adj[i] = new LinkedList<Edge>();
         }
         coveredEdges = new HashSet<Edge>();
@@ -52,8 +53,9 @@ public class Graph {
 
     public void addEdge(int u, int v){
         Edge e = new Edge(u, v);
+        //add e edge only once, prevent duplicate
         adj[u].add(e);
-        adj[v].add(e);
+        //adj[v].add(e);
         this.unCoveredEdges.add(e);
         E++;
     }
@@ -61,7 +63,9 @@ public class Graph {
     public int numOfVertices(){
         return V;
     }
-
+    public void setNumOfEdges(int E) {
+        this.E = E;
+    }
     public int numOfEdges(){
         return E;
     }

@@ -28,6 +28,7 @@ public class GraphUtil {
             }
         }
         br.close();
+        g.setNumOfEdges(g.numOfEdges()/2);
         //if numOfEdges does not match return null
         if (g.numOfEdges() != numEdges) g = null;
         return g;
@@ -55,31 +56,31 @@ public class GraphUtil {
         return lowBound;
     }
 
-    public static int getHighestDegree (HashSet<Integer> unUsedVertices, HashSet<Integer> unCoveredVertices, LinkedList<Edge>[] adj) {
+    public static int getHighestDegree (HashSet<Integer> unUsedVertices, HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
         int maxDegree = 0;
         int targetVertex = -1;
         for (int i : unUsedVertices){
             int localMax = 0;
             for (Edge e : adj[i]) {
-                if (unCoveredVertices.contains(e.endPoint(i))){
+                if (unCoveredEdges.contains(e)){
                     localMax++;
                 }
             }
-            maxDegree = maxDegree < localMax ? localMax : maxDegree;
             targetVertex = maxDegree < localMax ? i : targetVertex;
+            maxDegree = maxDegree < localMax ? localMax : maxDegree;
         }
         return targetVertex;
     }
 
     public static VertexCover addToVertexCover(VertexCover vc, LinkedList<Edge>[] adj, int v){
-        VertexCover new_vc = new VertexCover(vc);
-        new_vc.candidate.add(v);
+        vc.candidate.add(v);
+        vc.unUsedVertices.remove(v);
         LinkedList<Edge> v_adj = adj[v];
         for (Edge e : v_adj) {
             int u = e.endPoint(v);
-            new_vc.unCoveredVertices.remove(u);
-            new_vc.unCoveredEdges.remove(e);
+            vc.unCoveredVertices.remove(u);
+            vc.unCoveredEdges.remove(e);
         }
-        return new_vc;
+        return vc;
     }
 }

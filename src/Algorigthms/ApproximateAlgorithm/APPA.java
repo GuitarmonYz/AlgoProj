@@ -1,10 +1,11 @@
 package Algorigthms.ApproximateAlgorithm;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.toMap;
+
 /**
  * Created by zhangyongzheng on 11/13/17.
  */
