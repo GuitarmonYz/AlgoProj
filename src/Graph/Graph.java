@@ -23,7 +23,7 @@ public class Graph {
      */
     public Graph(int V){
         this.V = V;
-        adj = new LinkedList[V];
+        adj = new LinkedList[V+1];
         for (int i = 0; i < V; i++) {
             adj[i] = new LinkedList<Edge>();
         }
