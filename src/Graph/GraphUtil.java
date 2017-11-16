@@ -1,7 +1,6 @@
 package Graph;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -35,7 +34,8 @@ public class GraphUtil {
     }
 
     public static int getLowerBoundMaxMatch (HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
-        HashSet<Integer> vertexLBApprox = new HashSet<>();
+        //HashSet<Integer> vertexLBApprox = new HashSet<>();
+        int lowerBound = 0;
         HashSet<Edge> coveredEdges = new HashSet<Edge>();
         int numEdge = unCoveredEdges.size();
         for (Edge e : unCoveredEdges) {
@@ -43,14 +43,13 @@ public class GraphUtil {
             if (!coveredEdges.contains(e)){
                 int u = e.endPoint();
                 int v = e.endPoint(u);
-                vertexLBApprox.add(u);
-                vertexLBApprox.add(v);
+                lowerBound+=2;
                 coveredEdges.addAll(adj[u]);
                 coveredEdges.addAll(adj[v]);
                 coveredEdges.add(e);
             }
         }
-        return vertexLBApprox.size()/2;
+        return lowerBound/2;
     }
 
     public static int getHighestDegree (HashSet<Integer> unUsedVertices, HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {

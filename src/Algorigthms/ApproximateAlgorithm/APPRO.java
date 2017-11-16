@@ -18,14 +18,10 @@ public class APPRO {
     private static PrintWriter DFS_trace;
 
     //private static int num_Vertices;
-    private static int num_Edges;
-    //private static int vertex_cover_size = 0;
-    //private static int[] vertex_cover;
+    public static int num_Edges;
     public static ArrayList<Integer> result_vertex_cover = new ArrayList<>();
 
     private static HashMap<String,ArrayList<String>> rawgraph;
-    //private static HashMap<String, ArrayList<String>> sortedMap;
-    //private static ArrayList<Line> map_list = new ArrayList<Line>();
 
 
 //    public static void main(String[] args) throws IOException {
@@ -83,7 +79,7 @@ public class APPRO {
         DFS_output = new PrintWriter(output_Filepath);
         DFS_trace =new PrintWriter(trace_Filepath);
 
-        double running_Time = mdgfind();
+        double running_Time = mdgfind(num_Edges);
 
         if(running_Time > real_cut_off_time){
             DFS_trace.printf("Timeout");
@@ -101,8 +97,7 @@ public class APPRO {
         DFS_trace.close();
     }
 
-    public static double mdgfind(){
-
+    public static double mdgfind(int num_Edges){
         long start_time = System.nanoTime();
         while (num_Edges >0){
             HashMap<String, ArrayList<String>> temp_sorted_map = rawgraph.entrySet().stream().sorted(comparingInt(e -> e.getValue().size())).collect(toMap(

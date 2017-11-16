@@ -35,16 +35,17 @@ public class BBMain {
         long end = start + cutOffTime;
         HashSet<Integer> BestSol = new HashSet<>();
         while (!stateStack.isEmpty()) {
-            //if (System.nanoTime() >= end) break;
+//            if (System.nanoTime() >= end) break;
             VertexCover curVC = stateStack.poll();
             if (curVC.unCoveredEdges.isEmpty()) {
-//                upperBound = Math.min(curVC.candidate.size(), upperBound) ;
-//                System.out.print(displayRes(curVC.candidate));
-//                System.out.println(upperBound);
+                upperBound = Math.min(curVC.candidate.size(), upperBound) ;
+                System.out.print(displayRes(curVC.candidate));
+                System.out.println(upperBound);
                 if (curVC.candidate.size() < upperBound){
                     upperBound = curVC.candidate.size();
                     BestSol = new HashSet<>(curVC.candidate);
                 }
+//                break;
             } else if (curVC.candidate.size() < upperBound){
                 int v = GraphUtil.getHighestDegree(curVC.unUsedVertices, curVC.unCoveredEdges, g.getAdj());
                 VertexCover VC1 = new VertexCover(curVC);
@@ -58,10 +59,6 @@ public class BBMain {
                 }
                 int LB2 = VC2.candidate.size() + GraphUtil.getLowerBoundMaxMatch(VC2.unCoveredEdges, g.getAdj());
                 VC2.lowerBound = LB2;
-                if (LB1 <= upperBound && LB2 <= upperBound) {
-                    stateStack.add(VC1);
-                    stateStack.add(VC2);
-                }
                 if (LB1 <= upperBound) {
                     stateStack.add(VC1);
                 }

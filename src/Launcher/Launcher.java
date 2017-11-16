@@ -20,17 +20,17 @@ public class Launcher {
         try {
             Launcher launcher = new Launcher();
 //            SolWriter.setHyperParam(launcher, args);
-            Graph testGraph = GraphUtil.loadGraph("./Data/karate.graph");
-//            BBMain bnb = new BBMain(testGraph, 120);
-//            HashSet<Integer> sol = bnb.getVertexCover();
-//            System.out.println(bnb.displayRes(sol));
-            LSMain ls = new LSMain(testGraph);
-            ls.LS1();
-            APPRO.readgraph("karate");
-            APPRO.mdgfind();
-            for (int val : APPRO.result_vertex_cover){
-                System.out.print(val + ", ");
-            }
+            Graph testGraph = GraphUtil.loadGraph("./Data/football.graph");
+            BBMain bnb = new BBMain(testGraph, 120);
+            HashSet<Integer> sol = bnb.getVertexCover();
+            System.out.println(bnb.displayRes(sol));
+//            LSMain ls = new LSMain(testGraph);
+//            ls.LS1();
+//            APPRO.readgraph("karate");
+//            APPRO.mdgfind(APPRO.num_Edges);
+//            for (int val : APPRO.result_vertex_cover){
+//                System.out.print(val + ", ");
+//            }
 
         } catch (IOException e) {
             e.printStackTrace();
