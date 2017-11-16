@@ -1,9 +1,6 @@
 package Graph;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Zhao Yan
@@ -48,10 +45,32 @@ public class Graph {
 
     public void addEdge(int u, int v){
         Edge e = new Edge(u, v);
-        
         adj[u].add(e);
         this.edges.add(e);
         E++;
+    }
+
+    /**
+     * return the degree of current vertex
+     * @param curV
+     * @return
+     */
+    public int getDegree(int curV){
+        return this.adj[curV].size();
+    }
+
+    /**
+     * get adjacent vertex array
+     * @param curV
+     * @return
+     */
+    public ArrayList<Integer> getAdjV(int curV){
+        //get adjacent vertex array
+        ArrayList<Integer> adjV = new ArrayList<>();
+        for (Edge e : adj[curV]){
+            adjV.add(e.endPoint(curV));
+        }
+        return adjV;
     }
 
     public int numOfVertices(){

@@ -15,9 +15,9 @@ public class BBMain {
     public BBMain(Graph g, int cutOffTime) {
         this.g = new Graph(g);
         this.stateStack  = new PriorityQueue<VertexCover>();
-        this.upperBound = GraphUtil.getLowerBoundMaxMatch(g.getUnCoveredEdges(),g.getAdj()) * 2;
+        this.upperBound = GraphUtil.getLowerBoundMaxMatch(g.getEdges(),g.getAdj()) * 2;
         HashSet<Integer> candidate = new HashSet<>();
-        VertexCover vc = new VertexCover(candidate, g.getUnCoveredVertices(), g.getUnCoveredEdges(), upperBound);
+        VertexCover vc = new VertexCover(candidate, g.getVertices(), g.getEdges(), upperBound);
         stateStack.add(vc);
         this.cutOffTime = cutOffTime;
     }

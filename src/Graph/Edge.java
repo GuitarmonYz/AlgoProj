@@ -14,6 +14,10 @@ public class Edge {
         this.id = u < v ? Integer.toString(u)+v : Integer.toString(v)+u;
     }
 
+    public int[] getTwoEnds(){
+        return new int[]{u,v};
+    }
+
     public int endPoint(){
         return v;
     }
