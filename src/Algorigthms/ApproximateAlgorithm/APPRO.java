@@ -21,7 +21,7 @@ public class APPRO {
     private static int num_Edges;
     //private static int vertex_cover_size = 0;
     //private static int[] vertex_cover;
-    private static ArrayList<Integer> result_vertex_cover = new ArrayList<>();
+    public static ArrayList<Integer> result_vertex_cover = new ArrayList<>();
 
     private static HashMap<String,ArrayList<String>> rawgraph;
     //private static HashMap<String, ArrayList<String>> sortedMap;
@@ -47,8 +47,8 @@ public class APPRO {
     public static void readgraph(String real_intput_Filename)throws IOException{
         HashMap<String,ArrayList<String>> res = new HashMap<>();
         String[] after_split;
-        String now_dir = System.getProperty("user.dir");
-        String file_path = now_dir + "/Data/" + real_intput_Filename + ".graph";
+        //String now_dir = System.getProperty("user.dir");
+        String file_path = "./Data/" + real_intput_Filename + ".graph";
         BufferedReader br = new BufferedReader(new FileReader(new File(file_path)));
 
         String ln = br.readLine();
@@ -83,7 +83,7 @@ public class APPRO {
         DFS_output = new PrintWriter(output_Filepath);
         DFS_trace =new PrintWriter(trace_Filepath);
 
-        double running_Time = mdgfind(rawgraph,num_Edges);
+        double running_Time = mdgfind();
 
         if(running_Time > real_cut_off_time){
             DFS_trace.printf("Timeout");
@@ -101,7 +101,7 @@ public class APPRO {
         DFS_trace.close();
     }
 
-    public static double mdgfind(HashMap<String,ArrayList<String>> rawgraph,int num_Edges){
+    public static double mdgfind(){
 
         long start_time = System.nanoTime();
         while (num_Edges >0){

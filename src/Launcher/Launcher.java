@@ -1,6 +1,8 @@
 package Launcher;
 
+import Algorigthms.ApproximateAlgorithm.APPRO;
 import Algorigthms.BranchAndBound.BBMain;
+import Algorigthms.LocalSearch.LSMain;
 import FileUtil.SolWriter;
 import Graph.GraphUtil;
 import Graph.Graph;
@@ -17,11 +19,19 @@ public class Launcher {
     public static void main(String args[]){
         try {
             Launcher launcher = new Launcher();
-            SolWriter.setHyperParam(launcher, args);
+//            SolWriter.setHyperParam(launcher, args);
             Graph testGraph = GraphUtil.loadGraph("./Data/karate.graph");
-            BBMain bnb = new BBMain(testGraph, 120);
-            HashSet<Integer> sol = bnb.getVertexCover();
-            System.out.println(bnb.displayRes(sol));
+//            BBMain bnb = new BBMain(testGraph, 120);
+//            HashSet<Integer> sol = bnb.getVertexCover();
+//            System.out.println(bnb.displayRes(sol));
+            LSMain ls = new LSMain(testGraph);
+            ls.LS1();
+            APPRO.readgraph("karate");
+            APPRO.mdgfind();
+            for (int val : APPRO.result_vertex_cover){
+                System.out.print(val + ", ");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
