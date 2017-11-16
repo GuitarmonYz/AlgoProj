@@ -36,24 +36,22 @@ public class GraphUtil {
 
 
     public static int getLowerBoundMaxMatch (HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
-        int lowBound = 0;
-        HashSet<Integer> visitedVertices = new HashSet<>();
+        HashSet<Integer> vertexLBApprox = new HashSet<>();
+        HashSet<Edge> coveredEdges = new HashSet<Edge>();
+        int numEdge = unCoveredEdges.size();
         for (Edge e : unCoveredEdges) {
-            int u = e.endPoint();
-            int v = e.endPoint(u);
-            if (!visitedVertices.contains(u) && !visitedVertices.contains(v)){
-                lowBound += 2;
-                LinkedList<Edge> u_adj = adj[u];
-                LinkedList<Edge> v_adj = adj[v];
-                for (Edge u_e : u_adj){
-                    visitedVertices.add(u_e.endPoint(u));
-                }
-                for (Edge v_e : v_adj) {
-                    visitedVertices.add(v_e.endPoint(v));
-                }
+            if (numEdge == coveredEdges.size()) break;
+            if (!coveredEdges.contains(e)){
+                int u = e.endPoint();
+                int v = e.endPoint(u);
+                vertexLBApprox.add(u);
+                vertexLBApprox.add(v);
+                coveredEdges.addAll(adj[u]);
+                coveredEdges.addAll(adj[v]);
+                coveredEdges.add(e);
             }
         }
-        return lowBound;
+        return vertexLBApprox.size()/2;
     }
 
     public static int getHighestDegree (HashSet<Integer> unUsedVertices, HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
@@ -77,8 +75,8 @@ public class GraphUtil {
         vc.unUsedVertices.remove(v);
         LinkedList<Edge> v_adj = adj[v];
         for (Edge e : v_adj) {
-            int u = e.endPoint(v);
-            vc.unCoveredVertices.remove(u);
+            //int u = e.endPoint(v);
+            //vc.unCoveredVertices.remove(u);
             vc.unCoveredEdges.remove(e);
         }
         return vc;

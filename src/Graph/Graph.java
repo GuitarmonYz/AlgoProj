@@ -12,10 +12,9 @@ public class Graph {
     private int V;
     private int E;
     private final LinkedList<Edge>[] adj;
-    private final HashSet<Edge> coveredEdges;
-    private final HashSet<Edge> unCoveredEdges;
-    private final HashSet<Integer> coveredVertices;
-    private final HashSet<Integer> unCoveredVertices;
+    private final HashSet<Integer> vertices;
+    private final HashSet<Edge> edges;
+
 
     /**
      * Init default Graph
@@ -28,12 +27,10 @@ public class Graph {
         for (int i = 0; i <= V; i++) {
             adj[i] = new LinkedList<Edge>();
         }
-        coveredEdges = new HashSet<Edge>();
-        unCoveredEdges = new HashSet<Edge>();
-        coveredVertices = new HashSet<>();
-        unCoveredVertices = new HashSet<>();
+        edges = new HashSet<Edge>();
+        vertices = new HashSet<>();
         for (int i = 1; i <= V; i++){
-            unCoveredVertices.add(i);
+            vertices.add(i);
         }
     }
 
@@ -45,18 +42,15 @@ public class Graph {
         this.V = g.V;
         this.E = g.E;
         this.adj = Arrays.copyOf(g.adj, g.adj.length);
-        this.coveredEdges = new HashSet<Edge>(g.coveredEdges);
-        this.unCoveredEdges = new HashSet<Edge>(g.unCoveredEdges);
-        this.coveredVertices = new HashSet<>(g.coveredVertices);
-        this.unCoveredVertices = new HashSet<>(g.unCoveredVertices);
+        this.edges = new HashSet<Edge>(g.edges);
+        this.vertices = new HashSet<>(g.vertices);
     }
 
     public void addEdge(int u, int v){
         Edge e = new Edge(u, v);
-        //add e edge only once, prevent duplicate
+        
         adj[u].add(e);
-        //adj[v].add(e);
-        this.unCoveredEdges.add(e);
+        this.edges.add(e);
         E++;
     }
 
@@ -74,25 +68,10 @@ public class Graph {
         return this.adj;
     }
     public HashSet<Edge> getEdges(){
-        HashSet<Edge> edges = new HashSet<Edge>(this.coveredEdges);
-        edges.addAll(this.unCoveredEdges);
-        return edges;
+        return this.edges;
     }
-    public HashSet<Edge> getUnCoveredEdges () {
-        return this.unCoveredEdges;
+    public HashSet<Integer> getVertices() {
+        return vertices;
     }
-
-    public HashSet<Edge> getCoveredEdges() {
-        return this.coveredEdges;
-    }
-
-    public HashSet<Integer> getCoveredVertices() {
-        return this.coveredVertices;
-    }
-
-    public HashSet<Integer> getUnCoveredVertices() {
-        return this.unCoveredVertices;
-    }
-
 }
 
