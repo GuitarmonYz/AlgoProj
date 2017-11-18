@@ -20,10 +20,11 @@ public class Launcher {
         try {
             Launcher launcher = new Launcher();
 //            SolWriter.setHyperParam(launcher, args);
-            Graph testGraph = GraphUtil.loadGraph("./Data/football.graph");
+            Graph testGraph = GraphUtil.loadGraph("./Data/karate.graph");
             BBMain bnb = new BBMain(testGraph, 120);
-            HashSet<Integer> sol = bnb.getVertexCover();
-            System.out.println(bnb.displayRes(sol));
+            bnb.getVertexCover();
+            //HashSet<Integer> sol = bnb.getVertexCover();
+            //System.out.println(bnb.displayRes(sol));
 //            LSMain ls = new LSMain(testGraph);
 //            ls.LS1();
 //            APPRO.readgraph("karate");

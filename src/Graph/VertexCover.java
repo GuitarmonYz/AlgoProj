@@ -1,25 +1,19 @@
 package Graph;
 
-import java.util.HashSet;
+import java.util.Arrays;
 
 public class VertexCover implements Comparable<VertexCover> {
-    public HashSet<Integer> candidate;
-    public HashSet<Integer> unUsedVertices;
-    public HashSet<Edge> unCoveredEdges;
+    public boolean[] graphState;
 
     public int lowerBound;
 
-    public VertexCover(HashSet<Integer> candidate, HashSet<Integer> unUsedVertices, HashSet<Edge> unCoveredEdges, int lowerBound){
-        this.candidate = new HashSet<>(candidate);
-        this.unUsedVertices = new HashSet<>(unUsedVertices);
-        this.unCoveredEdges = new HashSet<>(unCoveredEdges);
+    public VertexCover(boolean[] graphState, int lowerBound){
+        this.graphState = Arrays.copyOf(graphState, graphState.length);
         this.lowerBound = lowerBound;
     }
 
     public VertexCover(VertexCover vc){
-        this.candidate = new HashSet<>(vc.candidate);
-        this.unUsedVertices = new HashSet<>(vc.unUsedVertices);
-        this.unCoveredEdges = new HashSet<>(vc.unCoveredEdges);
+        this.graphState = Arrays.copyOf(vc.graphState, vc.graphState.length);
         this.lowerBound = vc.lowerBound;
     }
 

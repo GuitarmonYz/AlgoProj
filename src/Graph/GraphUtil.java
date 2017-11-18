@@ -33,8 +33,13 @@ public class GraphUtil {
         return g;
     }
 
+    /**
+     * get lower bound by max matching
+     * @param unCoveredEdges
+     * @param adj
+     * @return
+     */
     public static int getLowerBoundMaxMatch (HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
-        //HashSet<Integer> vertexLBApprox = new HashSet<>();
         int lowerBound = 0;
         HashSet<Edge> coveredEdges = new HashSet<Edge>();
         int numEdge = unCoveredEdges.size();
@@ -52,6 +57,13 @@ public class GraphUtil {
         return lowerBound/2;
     }
 
+    /**
+     * among unused vertices, get the one that has largest number of unCoveredEdges
+     * @param unUsedVertices
+     * @param unCoveredEdges
+     * @param adj
+     * @return
+     */
     public static int getHighestDegree (HashSet<Integer> unUsedVertices, HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj) {
         int maxDegree = 0;
         int targetVertex = -1;
@@ -68,15 +80,47 @@ public class GraphUtil {
         return targetVertex;
     }
 
-    public static VertexCover addToVertexCover(VertexCover vc, LinkedList<Edge>[] adj, int v){
-        vc.candidate.add(v);
-        vc.unUsedVertices.remove(v);
-        LinkedList<Edge> v_adj = adj[v];
-        for (Edge e : v_adj) {
-            //int u = e.endPoint(v);
-            //vc.unCoveredVertices.remove(u);
-            vc.unCoveredEdges.remove(e);
+    /**
+     * get uncoveredEdges, unUsedVertices and size of vertex cover in each iteration
+     * @param graphState
+     * @param edges
+     * @param unUsedVertices
+     * @param adj
+     * @return
+     */
+    public static int getVCInfo(boolean[] graphState, HashSet<Edge> edges, HashSet<Integer> unUsedVertices, LinkedList<Edge>[] adj){
+        int candidateSize = 0;
+        for (int i = 0; i < graphState.length; i++){
+            if (graphState[i]){
+                for (Edge e : adj[i+1]){
+                    edges.remove(e);
+                }
+                candidateSize++;
+            } else {
+                unUsedVertices.add(i+1);
+            }
         }
-        return vc;
+        return candidateSize;
     }
+
+    /**
+     * add a vertex to vertex cover, update related graph info
+     * @param vc
+     * @param v
+     * @param unCoveredEdges
+     * @param adj
+     * @return
+     */
+    public static HashSet<Edge> addToVertexCover(VertexCover vc, int v, HashSet<Edge> unCoveredEdges, LinkedList<Edge>[] adj){
+        HashSet<Edge> tmpRemoveEdge = new HashSet<>();
+        vc.graphState[v-1] = true;
+        for (Edge e: adj[v]){
+            if (unCoveredEdges.contains(e)) {
+                tmpRemoveEdge.add(e);
+                unCoveredEdges.remove(e);
+            }
+        }
+        return tmpRemoveEdge;
+    }
+
 }
