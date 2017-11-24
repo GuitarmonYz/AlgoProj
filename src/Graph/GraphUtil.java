@@ -21,9 +21,11 @@ public class GraphUtil {
         Graph g = new Graph(numVertex);
         for (int i = 1; i <= numVertex; i++){
             line = br.readLine();
-            split_array = line.split(" ");
-            for (String vertex : split_array){
-                g.addEdge(i, Integer.parseInt(vertex));
+            if(!line.equals("")) {
+                split_array = line.split(" ");
+                for (String vertex : split_array) {
+                    g.addEdge(i, Integer.parseInt(vertex));
+                }
             }
         }
         br.close();

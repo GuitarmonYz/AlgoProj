@@ -11,6 +11,7 @@ public class Graph {
     private final LinkedList<Edge>[] adj;
     private final HashSet<Integer> vertices;
     private final HashSet<Edge> edges;
+    private final HashSet<Integer>[] adjV;
 
 
     /**
@@ -21,8 +22,10 @@ public class Graph {
         this.V = V;
         //the first element in adj is dummy
         adj = new LinkedList[V+1];
+        adjV = new HashSet [V+1];
         for (int i = 0; i <= V; i++) {
             adj[i] = new LinkedList<Edge>();
+            adjV[i] = new HashSet<>();
         }
         edges = new HashSet<Edge>();
         vertices = new HashSet<>();
@@ -39,6 +42,7 @@ public class Graph {
         this.V = g.V;
         this.E = g.E;
         this.adj = Arrays.copyOf(g.adj, g.adj.length);
+        this.adjV = Arrays.copyOf(g.adjV, g.adjV.length);
         this.edges = new HashSet<Edge>(g.edges);
         this.vertices = new HashSet<>(g.vertices);
     }
@@ -47,6 +51,8 @@ public class Graph {
         Edge e = new Edge(u, v);
         adj[u].add(e);
         this.edges.add(e);
+        adjV[u].add(v);
+        adjV[v].add(u);
         E++;
     }
 
@@ -92,5 +98,6 @@ public class Graph {
     public HashSet<Integer> getVertices() {
         return vertices;
     }
+    public HashSet<Integer> [] getAdjV_hashset(){return this.adjV;}
 }
 
