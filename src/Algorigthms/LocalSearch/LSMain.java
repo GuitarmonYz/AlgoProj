@@ -267,12 +267,25 @@ public class LSMain {
         //ArrayList<Integer> adjV;
         HashSet<Integer> adjV;
         while(!pq.isEmpty()){
-            int curV = pq.delMin();
-            //adjV = g.getAdjV(curV);
-            adjV = g.getAdjV_hashset()[curV];
-            if (this.vc.containsAll(adjV)){
-                this.vc.remove(curV);
+            int min_degree = (int)pq.minKey();
+            int curV;
+            LinkedList<Integer> curVList = new LinkedList<>();
+            while(!pq.isEmpty() && min_degree == (int)pq.minKey() ) {
+                curV = pq.delMin();
+                curVList.add(curV);
             }
+            Collections.shuffle(curVList,new Random(220));
+            Iterator<Integer> iterator1 = curVList.iterator();
+            while (iterator1.hasNext()){
+                curV = iterator1.next();
+                //adjV = g.getAdjV(curV);
+                adjV = g.getAdjV_hashset()[curV];
+                if (this.vc.containsAll(adjV)){
+                    this.vc.remove(curV);
+                }
+            }
+
+
         }
 
 /*        for(int i=1;i<=this.g.numOfVertices();i++){
