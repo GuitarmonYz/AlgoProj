@@ -98,6 +98,7 @@ public class LSMain {
                     tight1.add(entry.getKey());
                 }
             }
+            Collections.shuffle(tight1,new Random(20));
             boolean run = true;
             int i =0;
             int j, k;
@@ -263,10 +264,12 @@ public class LSMain {
             pq.insert(i,g.getDegree(i));
             //pq.insert(i,getDegreeInCurrentVC(i));
         }
-        ArrayList<Integer> adjV;
+        //ArrayList<Integer> adjV;
+        HashSet<Integer> adjV;
         while(!pq.isEmpty()){
             int curV = pq.delMin();
-            adjV = g.getAdjV(curV);
+            //adjV = g.getAdjV(curV);
+            adjV = g.getAdjV_hashset()[curV];
             if (this.vc.containsAll(adjV)){
                 this.vc.remove(curV);
             }

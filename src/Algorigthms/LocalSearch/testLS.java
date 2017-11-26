@@ -19,7 +19,7 @@ public class testLS {
             return;
         }
         String now_dir = System.getProperty("user.dir");
-        String file_path = now_dir + "/Data/" + args[0];
+        String file_path = now_dir + "/../Data/" + args[0];
         Graph g = GraphUtil.loadGraph(file_path);
         //LSMain LS1 = new LSMain(g);
         //LS1.LS1();
