@@ -10,12 +10,16 @@ public class LSMain {
     private final  Graph g;
     private final HashSet<Integer> vc;
     private final HashMap<Integer,Integer> tightness;
+    private final long cutoff_time;
+    private final long randSeed;
 
 
-    public LSMain(Graph g) {
+    public LSMain(Graph g, long time, long seed) {
         this.g = new Graph(g);
         this.vc = new HashSet<>();
         this.tightness = new HashMap<>(g.numOfVertices());
+        this.cutoff_time = time;
+        this.randSeed = seed;
     }
 
     public void LS3(){
@@ -98,7 +102,7 @@ public class LSMain {
                     tight1.add(entry.getKey());
                 }
             }
-            Collections.shuffle(tight1,new Random(20));
+            Collections.shuffle(tight1,new Random(this.randSeed));
             boolean run = true;
             int i =0;
             int j, k;
@@ -274,7 +278,7 @@ public class LSMain {
                 curV = pq.delMin();
                 curVList.add(curV);
             }
-            Collections.shuffle(curVList,new Random(220));
+            Collections.shuffle(curVList,new Random(this.randSeed));
             Iterator<Integer> iterator1 = curVList.iterator();
             while (iterator1.hasNext()){
                 curV = iterator1.next();
@@ -284,7 +288,6 @@ public class LSMain {
                     this.vc.remove(curV);
                 }
             }
-
 
         }
 

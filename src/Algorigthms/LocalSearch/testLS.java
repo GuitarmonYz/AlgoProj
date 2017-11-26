@@ -23,8 +23,8 @@ public class testLS {
         Graph g = GraphUtil.loadGraph(file_path);
         //LSMain LS1 = new LSMain(g);
         //LS1.LS1();
-        LSMain LS2 = new LSMain(g);
-        LS2.LS2();
+        //LSMain LS2 = new LSMain(g);
+        //LS2.LS2();
         //System.out.print(i);
 
     }
