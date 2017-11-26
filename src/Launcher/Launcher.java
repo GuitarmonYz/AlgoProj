@@ -11,16 +11,20 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class Launcher {
-    String input_Filename;
-    String algorithm_name;
-    long cut_off_time;
-    long randSeedParam;
+    public static String input_Filename;
+    public static String algorithm_name;
+    public static long cut_off_time;
+    public static long randSeedParam;
+    public boolean hasRandSeed = false;
 
     public static void main(String args[])throws IOException{
+
         if(args.length < 6){
             System.out.println("Please enter right parameters length.");
             return;
         }
+
+        SolWriter solWriter = SolWriter.getInstance();
 
         //arg 2 4 6 8 are the input
         Launcher exe = new Launcher();
@@ -29,16 +33,19 @@ public class Launcher {
             return;
         }
         exe.input_Filename = args[1];
+        solWriter.input_Filename = args[1];
         if(!args[2].equals("-alg")){
             System.out.println("Please enter right parameters -alg. ");
             return;
         }
         exe.algorithm_name = args[3];
+        solWriter.algorithm_name = args[3];
         if(!args[4].equals("-time")){
             System.out.println("Please enter right parameters -time.");
             return;
         }
         exe.cut_off_time = Long.parseLong(args[5]);
+        solWriter.cut_off_time = Long.parseLong(args[5]);
 
         if(args.length==8){
             if(!args[6].equals("-seed")){
@@ -46,6 +53,9 @@ public class Launcher {
                 return;
             }
             exe.randSeedParam = Long.parseLong(args[7]);
+            solWriter.randSeedParam = Long.parseLong(args[7]);
+            exe.hasRandSeed = true;
+            solWriter.hasRandSeed = true;
         }
 
         String now_dir = System.getProperty("user.dir");
@@ -68,6 +78,7 @@ public class Launcher {
 
     }
 
+
     public void setInput_Filename(String input_Filename){
         this.input_Filename = input_Filename;
     }
@@ -80,4 +91,5 @@ public class Launcher {
     public void setRandSeedParam(int randSeedParam) {
         this.randSeedParam = randSeedParam;
     }
+
 }

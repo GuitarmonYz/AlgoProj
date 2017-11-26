@@ -5,8 +5,23 @@ import Launcher.Launcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class SolWriter {
+    private static SolWriter sol_writer = null;
+    public static String input_Filename;
+    public static String algorithm_name;
+    public static long cut_off_time;
+    public static long randSeedParam;
+    public static boolean hasRandSeed = false;
+
+    public static SolWriter getInstance(){
+        if (sol_writer == null){
+            sol_writer = new SolWriter();
+        }
+        return sol_writer;
+    }
     public static void setHyperParam(Launcher launcher, String[] args){
         String input_Filename;
         String algorithm_name;
@@ -74,6 +89,35 @@ public class SolWriter {
         }catch (IOException iex){
 
         }
+
+    }
+
+    public static void writeSol(HashSet<Integer> vc){
+        //write solution file
+        String output_Filepath;
+
+        if(hasRandSeed){
+            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+                    + "_" + Long.toString(cut_off_time) + "_" + Long.toString(randSeedParam)+".sol";
+        }else{
+            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+                    + "_" + Long.toString(cut_off_time) + ".sol";
+        }
+        try {
+            PrintWriter sol = new PrintWriter(output_Filepath);
+            sol.printf("%d%n",vc.size());
+            Iterator<Integer> iterator = vc.iterator();
+            sol.printf("%s",iterator.next());
+            while(iterator.hasNext()){
+                sol.printf(",%s",iterator.next());
+            }
+            sol.close();
+        }catch (IOException iex){
+        }
+
+
+
+
 
     }
 }

@@ -1,5 +1,7 @@
 package Algorigthms.LocalSearch;
 import java.util.*;
+
+import FileUtil.SolWriter;
 import Graph.Graph;
 import Graph.Edge;
 import Graph.IndexMinPQ;
@@ -12,6 +14,7 @@ public class LSMain {
     private final HashMap<Integer,Integer> tightness;
     private final long cutoff_time;
     private final long randSeed;
+    boolean isLS1 = true;
 
 
     public LSMain(Graph g, long time, long seed) {
@@ -86,6 +89,7 @@ public class LSMain {
     }
     public void LS2(){
         //System.out.println("LS2");
+        this.isLS1 = false;
 
         long startTime = System.nanoTime();
         HashSet<Edge> edges = new HashSet<>(g.getEdges());
@@ -301,6 +305,7 @@ public class LSMain {
         long endTime = System.nanoTime();
         System.out.println("LS1  VC = "+ this.vc.size()+"   Running Time = "+ (endTime-startTime)/1e9 + " s "+checkVC());
         //System.out.println(checkVC());
+        SolWriter.writeSol(vc);
 
     }
 
