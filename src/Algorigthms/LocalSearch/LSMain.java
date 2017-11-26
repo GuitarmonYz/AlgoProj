@@ -15,6 +15,10 @@ public class LSMain {
     private final long cutoff_time;
     private final long randSeed;
     boolean isLS1 = true;
+    long curTime2 = System.nanoTime();
+    long curTime1 = System.nanoTime();
+    long totalTime=0;
+    long startTime = System.nanoTime();
 
 
     public LSMain(Graph g, long time, long seed) {
@@ -90,8 +94,11 @@ public class LSMain {
     public void LS2(){
         //System.out.println("LS2");
         this.isLS1 = false;
+        curTime2 = System.nanoTime();
+        curTime1 = System.nanoTime();
 
-        long startTime = System.nanoTime();
+
+        startTime = System.nanoTime();
         HashSet<Edge> edges = new HashSet<>(g.getEdges());
         LS1();
         //System.out.println(checkVC());
@@ -125,6 +132,12 @@ public class LSMain {
                             this.vc.remove(vi);
                             this.vc.remove(vj);
                             this.vc.add(k);
+
+                            curTime2=System.nanoTime();
+                            totalTime = curTime2-curTime1+totalTime;
+                            SolWriter.writeTrace((double)((totalTime)/1e9),vc.size());
+                            curTime1=System.nanoTime();
+
                             run = false;
                             updateTight(vi,vj,k);
                             long curTime = System.nanoTime();
@@ -166,7 +179,8 @@ public class LSMain {
 
 
         long endTime = System.nanoTime();
-        System.out.println("LS2  VC = "+ this.vc.size()+"   Running Time = "+ (endTime-startTime)/1e9 + " s "+checkVC());
+        System.out.println("LS2  VC = "+ this.vc.size()+"   Running Time = "+ (totalTime)/1e9 + " s "+checkVC());
+        SolWriter.writeSol(vc);
 
     }
 
@@ -261,7 +275,10 @@ public class LSMain {
     }
 
     public void LS1(){
-        long startTime = System.nanoTime();
+        startTime = System.nanoTime();
+        curTime1=System.nanoTime();
+        curTime2=System.nanoTime();
+        totalTime=0;
         EdgeDeletion();
         //System.out.println("VC = "+ this.vc.size());
 
@@ -290,6 +307,10 @@ public class LSMain {
                 adjV = g.getAdjV_hashset()[curV];
                 if (this.vc.containsAll(adjV)){
                     this.vc.remove(curV);
+                    curTime2=System.nanoTime();
+                    totalTime = curTime2-curTime1+totalTime;
+                    SolWriter.writeTrace((double)((totalTime)/1e9),vc.size());
+                    curTime1=System.nanoTime();
                 }
             }
 
@@ -303,9 +324,9 @@ public class LSMain {
         }*/
 
         long endTime = System.nanoTime();
-        System.out.println("LS1  VC = "+ this.vc.size()+"   Running Time = "+ (endTime-startTime)/1e9 + " s "+checkVC());
+        System.out.println("LS1  VC = "+ this.vc.size()+"   Running Time = "+ (totalTime)/1e9 + " s "+checkVC());
         //System.out.println(checkVC());
-        SolWriter.writeSol(vc);
+        if(this.isLS1) SolWriter.writeSol(vc);
 
     }
 

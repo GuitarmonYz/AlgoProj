@@ -2,6 +2,8 @@ package FileUtil;
 
 import Launcher.Launcher;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -114,10 +116,24 @@ public class SolWriter {
             sol.close();
         }catch (IOException iex){
         }
+    }
 
+    public static void writeTrace(double time, int size){
+        //write solution file
+        String output_Filepath;
 
-
-
-
+        if(hasRandSeed){
+            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+                    + "_" + Long.toString(cut_off_time) + "_" + Long.toString(randSeedParam)+".trace";
+        }else{
+            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+                    + "_" + Long.toString(cut_off_time) + ".trace";
+        }
+        try {
+            PrintWriter sol = new PrintWriter(new FileOutputStream(new File(output_Filepath),true));
+            sol.printf("%s,%s%n",time,size);
+            sol.close();
+        }catch (IOException iex){
+        }
     }
 }
