@@ -28,7 +28,33 @@ public class Launcher {
 
         //arg 2 4 6 8 are the input
         Launcher exe = new Launcher();
-        if(!args[0].equals("-inst")){
+        for (int i =1; i<=args.length/2;i++){
+            if(args[2*i-2].equals("-inst")){
+                exe.input_Filename = args[2*i-1];
+                solWriter.input_Filename = args[2*i-1];
+            } else if(args[2*i-2].equals("-alg")){
+                exe.algorithm_name = args[2*i-1];
+                solWriter.algorithm_name = args[2*i-1];
+            } else if(args[2*i-2].equals("-time")){
+                exe.cut_off_time = Long.parseLong(args[2*i-1]);
+                solWriter.cut_off_time = Long.parseLong(args[2*i-1]);
+            } else if(args[2*i-2].equals("-seed")){
+                exe.randSeedParam = Long.parseLong(args[2*i-1]);
+                solWriter.randSeedParam = Long.parseLong(args[2*i-1]);
+                exe.hasRandSeed = true;
+                solWriter.hasRandSeed = true;
+            } else{
+                System.out.println("Please enter right arguments.");
+                return;
+            }
+        }
+        if(args.length==6 && exe.hasRandSeed){
+            System.out.println("Please enter enough parameters");
+            return;
+        }
+
+
+        /*if(!args[0].equals("-inst")){
             System.out.println("Please enter right parameters -inst.");
             return;
         }
@@ -56,7 +82,7 @@ public class Launcher {
             solWriter.randSeedParam = Long.parseLong(args[7]);
             exe.hasRandSeed = true;
             solWriter.hasRandSeed = true;
-        }
+        }*/
 
         String now_dir = System.getProperty("user.dir");
         String file_path = now_dir + "/Data/" + exe.input_Filename;
