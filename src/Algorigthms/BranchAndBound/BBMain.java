@@ -46,7 +46,7 @@ public class BBMain {
                 // caluclate lower bound
                 int LB1 = candidateSize + 1 + GraphUtil.getLowerBoundMaxMatch(unCoveredEdges, g.getAdj());
                 VC1.lowerBound = LB1;
-                unCoveredEdges.addAll(tmpRemoveEdge_vc1);
+                //unCoveredEdges.addAll(tmpRemoveEdge_vc1);
                 HashSet<Edge> tmpRemoveEdge_vc2 = new HashSet<>();
                 // vertex with all v's neighbours
                 VertexCover VC2 = new VertexCover(curVC);
@@ -86,10 +86,8 @@ public class BBMain {
                 } else if (LB2 <= upperBound && LB1 > upperBound){
                     curVC = VC2;
                     candidateSize += v_adj.size();
-//                    for (Edge e: v_adj) {
-//                        unUsedVertices.add(e.endPoint(v));
-//                    }
                 } else if (LB2 > upperBound && LB1 > upperBound){
+                    curVC = VC2;
                     break;
                 }
             }
