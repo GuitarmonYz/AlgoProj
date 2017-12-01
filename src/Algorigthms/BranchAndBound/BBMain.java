@@ -88,21 +88,22 @@ public class BBMain {
                     candidateSize += v_adj.size();
                 } else if (LB2 > upperBound && LB1 > upperBound){
                     curVC = VC2;
+                    candidateSize += v_adj.size();
                     break;
                 }
             }
             if (unCoveredEdges.isEmpty()){
-                int candidateSize_res = 0;
-                for (boolean bool : curVC.graphState){
-                    if (bool) candidateSize_res++;
-                }
-                if (candidateSize_res < upperBound) {
-                    upperBound = candidateSize_res;
+//                int candidateSize_res = 0;
+//                for (boolean bool : curVC.graphState){
+//                    if (bool) candidateSize_res++;
+//                }
+                if (candidateSize < upperBound) {
+                    upperBound = candidateSize;
                     bestSol = curVC.graphState;
                 }
                 end = System.nanoTime();
                 elipsedTime = end - start;
-                System.out.println(candidateSize_res);
+                System.out.println(candidateSize);
                 System.out.println((double)elipsedTime / 1000000000.0);
             }
         }
