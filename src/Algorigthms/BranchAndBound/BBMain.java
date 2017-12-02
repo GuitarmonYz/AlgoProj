@@ -43,14 +43,13 @@ public class BBMain {
                 unUsedVertices.remove(v);
                 VertexCover VC1 = new VertexCover(curVC);
                 HashSet<Edge> tmpRemoveEdge_vc1 = GraphUtil.addToVertexCover(VC1,v, unCoveredEdges, g.getAdj());
-                // caluclate lower bound
+                // calculate lower bound
                 int LB1 = candidateSize + 1 + GraphUtil.getLowerBoundMaxMatch(unCoveredEdges, g.getAdj());
                 VC1.lowerBound = LB1;
                 //unCoveredEdges.addAll(tmpRemoveEdge_vc1);
                 HashSet<Edge> tmpRemoveEdge_vc2 = new HashSet<>();
                 // vertex with all v's neighbours
                 VertexCover VC2 = new VertexCover(curVC);
-                //VC2.visitedVertices[v-1] = true;
                 LinkedList<Edge> v_adj = g.getAdj()[v];
                 // add v's neighbours to vertex cover
                 for (Edge e : v_adj) {
