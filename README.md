@@ -11,7 +11,7 @@ This is a algorithm group project for solving Minium Vertex Cover problem.
 
 **reference book:**
 
-https://algs4.cs.princeton.edu/code/
+https://algs4.cs.princeton.edu/code/ test
 
 using intelliJ, build a MVC.jar based on Launcher as main class
 output the jar file under AlgoProj folder
