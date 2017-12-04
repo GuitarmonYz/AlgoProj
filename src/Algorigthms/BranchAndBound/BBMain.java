@@ -25,54 +25,85 @@ public class BBMain {
     public boolean[] getVertexCover () {
         long start = System.nanoTime();
         //long end = start + cutOffTime;
+        long end;
+        long elipsedTime;
         boolean[] bestSol = new boolean[]{};
+
         while (!stateStack.isEmpty()) {
 //            if (System.nanoTime() >= end) break;
             VertexCover curVC = stateStack.poll();
             HashSet<Edge> unCoveredEdges = new HashSet<>(g.getEdges());
             HashSet<Integer> unUsedVertices = new HashSet<>();
             // get unCovered edges and unUsedVertices from bool array, return current vertex cover size
-            int candidateSize = GraphUtil.getVCInfo(curVC.graphState, unCoveredEdges, unUsedVertices, g.getAdj());
-            if (unCoveredEdges.isEmpty()) {
-                // a solution has been found
-                if (candidateSize < upperBound){
-                    upperBound = candidateSize;
-                    bestSol = curVC.graphState;
-                }
-                System.out.println(upperBound);
-                long end = System.nanoTime();
-                long elipsedTime = end - start;
-                System.out.println((double)elipsedTime / 1000000000.0);
-                //break;
-            } else if (candidateSize < upperBound){
-                // get the vertex to branch on
+            int candidateSize = GraphUtil.getVCInfo(curVC.graphState ,unCoveredEdges, unUsedVertices, g.getAdj());
+
+            while (!unCoveredEdges.isEmpty()) {
+                // get node with highestDegree to branch
                 int v = GraphUtil.getHighestDegree(unUsedVertices, unCoveredEdges, g.getAdj());
-                // vertex cover with v
+                unUsedVertices.remove(v);
                 VertexCover VC1 = new VertexCover(curVC);
-                // get the edges that covered by adding v
-                HashSet<Edge> tmpRemoveEdge = GraphUtil.addToVertexCover(VC1,v, unCoveredEdges, g.getAdj());
-                // caluclate lower bound
+                HashSet<Edge> tmpRemoveEdge_vc1 = GraphUtil.addToVertexCover(VC1,v, unCoveredEdges, g.getAdj());
+                // calculate lower bound
                 int LB1 = candidateSize + 1 + GraphUtil.getLowerBoundMaxMatch(unCoveredEdges, g.getAdj());
                 VC1.lowerBound = LB1;
-                // reverse adding v
-                unCoveredEdges.addAll(tmpRemoveEdge);
+                //unCoveredEdges.addAll(tmpRemoveEdge_vc1);
+                HashSet<Edge> tmpRemoveEdge_vc2 = new HashSet<>();
                 // vertex with all v's neighbours
                 VertexCover VC2 = new VertexCover(curVC);
                 LinkedList<Edge> v_adj = g.getAdj()[v];
                 // add v's neighbours to vertex cover
                 for (Edge e : v_adj) {
-                    GraphUtil.addToVertexCover(VC2, e.endPoint(v), unCoveredEdges, g.getAdj());
+                    tmpRemoveEdge_vc2.addAll(GraphUtil.addToVertexCover(VC2, e.endPoint(v), unCoveredEdges, g.getAdj()));
+                    unUsedVertices.remove(e.endPoint(v));
                 }
                 // calculate lower bound
                 int LB2 = candidateSize + v_adj.size() + GraphUtil.getLowerBoundMaxMatch(unCoveredEdges, g.getAdj());
                 VC2.lowerBound = LB2;
-                // if less then upperBound, add to vertex cover
-                if (LB1 <= upperBound) {
-                    stateStack.add(VC1);
+                if (LB1 <= upperBound && LB2 <= upperBound) {
+                    if (LB1 >= LB2) {
+                        curVC = VC2;
+                        candidateSize += v_adj.size();
+                        stateStack.add(VC1);
+                    } else {
+                        curVC = VC1;
+                        candidateSize += 1;
+                        unCoveredEdges.addAll(tmpRemoveEdge_vc2);
+                        unCoveredEdges.removeAll(tmpRemoveEdge_vc1);
+                        for (Edge e : v_adj){
+                            unUsedVertices.add(e.endPoint(v));
+                        }
+                        stateStack.add(VC2);
+                    }
+                } else if (LB1 <= upperBound && LB2 > upperBound){
+                    curVC = VC1;
+                    candidateSize += 1;
+                    unCoveredEdges.addAll(tmpRemoveEdge_vc2);
+                    unCoveredEdges.removeAll(tmpRemoveEdge_vc1);
+                    for (Edge e : v_adj){
+                        unUsedVertices.add(e.endPoint(v));
+                    }
+                } else if (LB2 <= upperBound && LB1 > upperBound){
+                    curVC = VC2;
+                    candidateSize += v_adj.size();
+                } else if (LB2 > upperBound && LB1 > upperBound){
+                    curVC = VC2;
+                    candidateSize += v_adj.size();
+                    break;
                 }
-                if (LB2 <= upperBound) {
-                    stateStack.add(VC2);
+            }
+            if (unCoveredEdges.isEmpty()){
+//                int candidateSize_res = 0;
+//                for (boolean bool : curVC.graphState){
+//                    if (bool) candidateSize_res++;
+//                }
+                if (candidateSize < upperBound) {
+                    upperBound = candidateSize;
+                    bestSol = curVC.graphState;
                 }
+                end = System.nanoTime();
+                elipsedTime = end - start;
+                System.out.println(candidateSize);
+                System.out.println((double)elipsedTime / 1000000000.0);
             }
         }
         return bestSol;
