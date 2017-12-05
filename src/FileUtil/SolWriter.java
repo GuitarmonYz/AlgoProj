@@ -98,11 +98,29 @@ public class SolWriter {
         //write solution file
         String output_Filepath;
 
+//        if(hasRandSeed){
+//            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+//                    + "_" + Long.toString(cut_off_time) + "_" + Long.toString(randSeedParam)+".sol";
+//        }else{
+//            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+//                    + "_" + Long.toString(cut_off_time) + ".sol";
+//        }
+//        try {
+//            PrintWriter sol = new PrintWriter(output_Filepath);
+//            sol.printf("%d%n",vc.size());
+//            Iterator<Integer> iterator = vc.iterator();
+//            sol.printf("%s",iterator.next());
+//            while(iterator.hasNext()){
+//                sol.printf(",%s",iterator.next());
+//            }
+//            sol.close();
+//        }catch (IOException iex){
+//        }
         if(hasRandSeed){
-            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+            output_Filepath = "./" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
                     + "_" + Long.toString(cut_off_time) + "_" + Long.toString(randSeedParam)+".sol";
         }else{
-            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+            output_Filepath = "./" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
                     + "_" + Long.toString(cut_off_time) + ".sol";
         }
         try {
@@ -122,11 +140,24 @@ public class SolWriter {
         //write solution file
         String output_Filepath;
 
+//        if(hasRandSeed){
+//            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+//                    + "_" + Long.toString(cut_off_time) + "_" + Long.toString(randSeedParam)+".trace";
+//        }else{
+//            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+//                    + "_" + Long.toString(cut_off_time) + ".trace";
+//        }
+//        try {
+//            PrintWriter sol = new PrintWriter(new FileOutputStream(new File(output_Filepath),true));
+//            sol.printf("%s,%s%n",time,size);
+//            sol.close();
+//        }catch (IOException iex){
+//        }
         if(hasRandSeed){
-            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+            output_Filepath = "./" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
                     + "_" + Long.toString(cut_off_time) + "_" + Long.toString(randSeedParam)+".trace";
         }else{
-            output_Filepath = "./output/" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
+            output_Filepath = "./" + input_Filename.substring(0,input_Filename.length() - 6) + "_" + algorithm_name
                     + "_" + Long.toString(cut_off_time) + ".trace";
         }
         try {
