@@ -29,68 +29,6 @@ public class LSMain {
         this.randSeed = seed;
     }
 
-    public void LS3(){
-        //System.out.println("LS2");
-
-        long startTime = System.nanoTime();
-        HashSet<Edge> edges = new HashSet<>(g.getEdges());
-        LS1();
-        //System.out.println(checkVC());
-        calTight();
-
-
-        boolean next = true;
-        while (next){
-            LinkedList<Integer> tight1 = new LinkedList<>();
-            for (Map.Entry<Integer,Integer> entry : tightness.entrySet()) {
-                if (entry.getValue()==1) {
-                    tight1.add(entry.getKey());
-                }
-            }
-            boolean run = true;
-            int i =0;
-            int j, k;
-            int vi, vj;
-            while ( i<tight1.size() && run){
-                j = i+1;
-                while( j<tight1.size() && run){
-
-                    vi = tight1.get(i); vj = tight1.get(j);
-                    k = 1;
-                    if (!edges.contains(new Edge(vi,vj)) ){
-                        while(k<=g.numOfVertices() && run){
-                            if((!vc.contains(k)) && edges.contains(new Edge(vi,k)) && edges.contains(new Edge(vj,k))){
-                                this.vc.remove(vi);
-                                this.vc.remove(vj);
-                                this.vc.add(k);
-                                run = false;
-                                updateTight(vi,vj,k);
-                                long curTime = System.nanoTime();
-                                System.out.println("VC = "+ this.vc.size()+"   " +
-                                        "Running Time = "+ (curTime-startTime)/1e9 + " s" +
-                                        " replace " +vi +" & " +vj +" with " +k);
-                                //System.out.println(checkVC());
-
-                            }
-                            k++;
-                        }
-                    }
-                    j++;
-                }
-                i++;
-            }
-            if(run) next=false;
-        }
-
-
-
-
-
-
-        long endTime = System.nanoTime();
-        System.out.println("LS2  VC = "+ this.vc.size()+"   Running Time = "+ (endTime-startTime)/1e9 + " s "+checkVC());
-
-    }
     public void LS2(){
         //System.out.println("LS2");
         this.isLS1 = false;
@@ -104,9 +42,8 @@ public class LSMain {
         //System.out.println(checkVC());
         calTight();
 
-
         boolean next = true;
-        while (next){
+        while (next && totalTime<=this.cutoff_time*1e9){
             LinkedList<Integer> tight1 = new LinkedList<>();
             for (Map.Entry<Integer,Integer> entry : tightness.entrySet()) {
                 if (entry.getValue()==1) {
@@ -118,15 +55,15 @@ public class LSMain {
             int i =0;
             int j, k;
             int vi, vj;
-            while ( i<tight1.size() && run){
+            while ( i<tight1.size() && run ){
                 j = i+1;
                 vi = tight1.get(i);
                 HashSet<Integer> vi_adj = this.g.getAdjV_hashset()[vi];
-                while( j<tight1.size() && run){
+                while( j<tight1.size() && run ){
                     vj = tight1.get(j);
                     HashSet<Integer> vj_adj = this.g.getAdjV_hashset()[vj];
                     Iterator<Integer> vi_neigh = vi_adj.iterator();
-                    while(vi_neigh.hasNext()){
+                    while(vi_neigh.hasNext() && totalTime<=this.cutoff_time*1e9){
                         k = vi_neigh.next();
                         if(vj_adj.contains(k) && !vj_adj.contains(vi) && !vc.contains(k)){
                             this.vc.remove(vi);
@@ -148,34 +85,13 @@ public class LSMain {
 
                         }
                     }
-/*                    if (!this.g.getAdjV_hashset()[vi].contains(vj) ){
-                        while(k<=g.numOfVertices() && run){
-                            if((!vc.contains(k)) && edges.contains(new Edge(vi,k)) && edges.contains(new Edge(vj,k))){
-                                this.vc.remove(vi);
-                                this.vc.remove(vj);
-                                this.vc.add(k);
-                                run = false;
-                                updateTight(vi,vj,k);
-                                long curTime = System.nanoTime();
-                                System.out.println("VC = "+ this.vc.size()+"   " +
-                                        "Running Time = "+ (curTime-startTime)/1e9 + " s" +
-                                        " replace " +vi +" & " +vj +" with " +k);
-                                //System.out.println(checkVC());
 
-                            }
-                            k++;
-                        }
-                    }*/
                     j++;
                 }
                 i++;
             }
             if(run) next=false;
         }
-
-
-
-
 
 
         long endTime = System.nanoTime();
@@ -185,6 +101,7 @@ public class LSMain {
     }
 
     public void calTight(){
+        //calculate the tightness
         for(int i=1; i<=this.g.numOfVertices(); i++){
             int cur_tight = 0;
             if(vc.contains(i)){
@@ -201,25 +118,7 @@ public class LSMain {
 
     }
     public boolean checkVC(){
-        /*for(int i=1; i<=this.g.numOfVertices();i++){
-            if (g.getAdjV(i).isEmpty()) continue;
-            if( !this.vc.contains(i)){
-                boolean coverI = false;
-                ArrayList<Integer> adj_i = this.g.getAdjV(i);
-                Iterator<Integer> iterator = adj_i.iterator();
-                while(iterator.hasNext()){
-                    int j = iterator.next();
-                    if(this.vc.contains(j)) {
-                        coverI = true;
-                        break;
-                    }
-                }
-                if (!coverI) {
-                    return false;
-                }
-
-            }
-        }*/
+        //check whether the VC is valid
 
         HashSet<Edge> edges = new HashSet<>(g.getEdges());
         Iterator<Edge> iterator = edges.iterator();
@@ -235,6 +134,7 @@ public class LSMain {
     }
 
     public void updateTight(int vi,int vj, int vx){
+        //update tightness
         int cur_tight = 0;
         if(vc.contains(vx)){
             //ArrayList<Integer> adj_i = this.g.getAdjV(vx);
@@ -251,9 +151,6 @@ public class LSMain {
         HashSet<Integer> adj_v;
         while(iterator.hasNext()){
             int v_in_vc = iterator.next();
-            //if(edges.contains(new Edge(v_in_vc,vi))) tightness.put(v_in_vc,tightness.get(v_in_vc)+1);
-            //if(edges.contains(new Edge(v_in_vc,vj))) tightness.put(v_in_vc,tightness.get(v_in_vc)+1);
-            //if(edges.contains(new Edge(v_in_vc,vx))) tightness.put(v_in_vc,tightness.get(v_in_vc)-1);
             adj_v = this.g.getAdjV_hashset()[v_in_vc];
             if(adj_v.contains(vi)) tightness.put(v_in_vc,tightness.get(v_in_vc)+1);
             if(adj_v.contains(vj)) tightness.put(v_in_vc,tightness.get(v_in_vc)+1);
@@ -291,7 +188,7 @@ public class LSMain {
         }
         //ArrayList<Integer> adjV;
         HashSet<Integer> adjV;
-        while(!pq.isEmpty()){
+        while(!pq.isEmpty() && totalTime<=this.cutoff_time*1e9){
             int min_degree = (int)pq.minKey();
             int curV;
             LinkedList<Integer> curVList = new LinkedList<>();
@@ -301,7 +198,7 @@ public class LSMain {
             }
             Collections.shuffle(curVList,new Random(this.randSeed));
             Iterator<Integer> iterator1 = curVList.iterator();
-            while (iterator1.hasNext()){
+            while (iterator1.hasNext() && totalTime<=this.cutoff_time*1e9){
                 curV = iterator1.next();
                 //adjV = g.getAdjV(curV);
                 adjV = g.getAdjV_hashset()[curV];
@@ -316,15 +213,8 @@ public class LSMain {
 
         }
 
-/*        for(int i=1;i<=this.g.numOfVertices();i++){
-            if(g.getAdjV(i).isEmpty()) {
-                this.vc.add(i);
-            }
-
-        }*/
-
         long endTime = System.nanoTime();
-        System.out.println("LS1  VC = "+ this.vc.size()+"   Running Time = "+ (totalTime)/1e9 + " s "+checkVC());
+        if(this.isLS1) System.out.println("LS1  VC = "+ this.vc.size()+"   Running Time = "+ (totalTime)/1e9 + " s "+checkVC());
         //System.out.println(checkVC());
         if(this.isLS1) SolWriter.writeSol(vc);
 
@@ -334,12 +224,6 @@ public class LSMain {
     private void EdgeDeletion(){
         HashSet<Edge> edges = new HashSet<>(g.getEdges());
 
-/*        for(int i=1;i<=this.g.numOfVertices();i++){
-            if(g.getAdjV(i).isEmpty()) {
-                this.vc.add(i);
-            }
-
-        }*/
 
         while(!edges.isEmpty()){
             Iterator<Edge> iterator = edges.iterator();
