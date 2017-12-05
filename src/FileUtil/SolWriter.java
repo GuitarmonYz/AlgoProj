@@ -153,6 +153,7 @@ public class SolWriter {
 //            sol.close();
 //        }catch (IOException iex){
 //        }
+        
         String str[] = input_Filename.split("/");
         if(hasRandSeed){
             output_Filepath = "./" + str[str.length-1].substring(0,str[str.length-1].length() - 6) + "_" + algorithm_name
