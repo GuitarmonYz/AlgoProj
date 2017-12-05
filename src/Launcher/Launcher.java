@@ -48,41 +48,11 @@ public class Launcher {
                 return;
             }
         }
+
         if(args.length==6 && exe.hasRandSeed){
             System.out.println("Please enter enough parameters");
             return;
         }
-
-
-        /*if(!args[0].equals("-inst")){
-            System.out.println("Please enter right parameters -inst.");
-            return;
-        }
-        exe.input_Filename = args[1];
-        solWriter.input_Filename = args[1];
-        if(!args[2].equals("-alg")){
-            System.out.println("Please enter right parameters -alg. ");
-            return;
-        }
-        exe.algorithm_name = args[3];
-        solWriter.algorithm_name = args[3];
-        if(!args[4].equals("-time")){
-            System.out.println("Please enter right parameters -time.");
-            return;
-        }
-        exe.cut_off_time = Long.parseLong(args[5]);
-        solWriter.cut_off_time = Long.parseLong(args[5]);
-
-        if(args.length==8){
-            if(!args[6].equals("-seed")){
-                System.out.println("Please enter right parameters -seed.");
-                return;
-            }
-            exe.randSeedParam = Long.parseLong(args[7]);
-            solWriter.randSeedParam = Long.parseLong(args[7]);
-            exe.hasRandSeed = true;
-            solWriter.hasRandSeed = true;
-        }*/
 
         String now_dir = System.getProperty("user.dir");
         String file_path = now_dir + "/Data/" + exe.input_Filename;
@@ -94,16 +64,14 @@ public class Launcher {
             LSMain LS = new LSMain(g,exe.cut_off_time,exe.randSeedParam);
             LS.LS2();
         }else if (exe.algorithm_name.equals("BnB")){
-
+            BBMain Bnb = new BBMain(g,exe.cut_off_time);
+            Bnb.getVertexCover();
         }else if (exe.algorithm_name.equals("Approx")){
 
         }else{
             System.out.println("Please enter correct algo name.");
         }
-
-
     }
-
 
     public void setInput_Filename(String input_Filename){
         this.input_Filename = input_Filename;

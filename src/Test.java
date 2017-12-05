@@ -1,4 +1,5 @@
 import Algorigthms.BranchAndBound.BBMain;
+import FileUtil.SolWriter;
 import Graph.Edge;
 import Graph.GraphUtil;
 import Graph.Graph;
@@ -25,12 +26,18 @@ public class Test {
 //        test.testFinal(testList);
 //        System.out.println(testList.size());
         //test.testFinal();
+        SolWriter solWriter = SolWriter.getInstance();
+        solWriter.input_Filename = "karate.graph";
+        solWriter.algorithm_name = "bnb";
+        solWriter.cut_off_time = 5;
         try{
-            Graph testGraph = GraphUtil.loadGraph("./Data/football.graph");
-            BBMain bnb = new BBMain(testGraph, 120);
+            Graph testGraph = GraphUtil.loadGraph("./Data/karate.graph");
+            BBMain bnb = new BBMain(testGraph, 5);
             bnb.getVertexCover();
         }catch (IOException ex){
 
+        }catch (OutOfMemoryError e){
+            System.out.println("out of memory, need more memory to get opt solution");
         }
 
     }
