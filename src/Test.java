@@ -26,20 +26,21 @@ public class Test {
 //        test.testFinal(testList);
 //        System.out.println(testList.size());
         //test.testFinal();
-        SolWriter solWriter = SolWriter.getInstance();
-        solWriter.input_Filename = "karate.graph";
-        solWriter.algorithm_name = "bnb";
-        solWriter.cut_off_time = 5;
-        try{
-            Graph testGraph = GraphUtil.loadGraph("./Data/karate.graph");
-            BBMain bnb = new BBMain(testGraph, 5);
-            bnb.getVertexCover();
-        }catch (IOException ex){
-
-        }catch (OutOfMemoryError e){
-            System.out.println("out of memory, need more memory to get opt solution");
-        }
-
+//        SolWriter solWriter = SolWriter.getInstance();
+//        solWriter.input_Filename = "karate.graph";
+//        solWriter.algorithm_name = "bnb";
+//        solWriter.cut_off_time = 5;
+//        try{
+//            Graph testGraph = GraphUtil.loadGraph("./Data/power.graph");
+//            BBMain bnb = new BBMain(testGraph, 5);
+//            bnb.getVertexCover();
+//        }catch (IOException ex){
+//
+//        }catch (OutOfMemoryError e){
+//            System.out.println("out of memory, need more memory to get opt solution");
+//        }
+        String test = "data";
+        System.out.println(test.split("/").length);
     }
     public void testFinal(ArrayList<Edge> testList){
         testList.add(new Edge(0,1));

@@ -53,9 +53,15 @@ public class Launcher {
             System.out.println("Please enter enough parameters");
             return;
         }
+        //distinguish whether input is file name or path
+        String file_path;
+        if (exe.input_Filename.split("/").length < 2){
+            String now_dir = System.getProperty("user.dir");
+            file_path = now_dir + "/Data/" + exe.input_Filename;
+        }else{
+            file_path = exe.input_Filename;
+        }
 
-        String now_dir = System.getProperty("user.dir");
-        String file_path = now_dir + "/Data/" + exe.input_Filename;
         Graph g = GraphUtil.loadGraph(file_path);
         if(exe.algorithm_name.equals("LS1")){
             LSMain LS = new LSMain(g,exe.cut_off_time,exe.randSeedParam);
