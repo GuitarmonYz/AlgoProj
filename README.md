@@ -1,4 +1,5 @@
 # README
+Group 20
 
 This is a algorithm group project for solving Minium Vertex Cover problem.
 
@@ -9,19 +10,31 @@ This is a algorithm group project for solving Minium Vertex Cover problem.
 - Local Search: Hill Climbing Algorithm.
 - Local Search2: 2-improvement.
 
-**reference book:**
+**Compile and run**
+The submission includes precompiled MVC.jar
+Run: 
+java -jar MVC.jar -inst /path/to/graph/jazz.graph -alg LS1 -time 600 -seed 1
+
+-alg: LS1, LS2 BnB, Approx
+-seed: long type, optional
+-time: long type
+-inst: path to graph
+
+The order of argument is not fixed
+
+The output file is in current directory
+
+For example, if the graph is in current folder
+java -jar MVC.jar -inst ./jazz.graph -alg LS1 -time 600 -seed 1
+
+If the graph is in Data folder, which must be a subdirectory of current folder, you can use
+java -jar MVC.jar -inst jazz.graph -alg LS1 -time 600 -seed 1
+
+Method to build jar (No need to do this, as jar file is included with submission):
+using intelliJ, build a MVC.jar based on Launcher as main class
+put the jar file outside of src folder
+
+
+**reference**
 
 https://algs4.cs.princeton.edu/code/
-
-using intelliJ, build a MVC.jar based on Launcher as main class
-output the jar file under AlgoProj folder
-Run: java -jar MVC.jar -inst jazz.graph -alg LS1 -time 600 -seed 1
-
-the runLS.sh is in src folder
-run test : chomd +x runLS.sh
-./runLS.sh
-
-.m file to analyze data for tabel is in output folder
-
-In the launcher, the order of argument is not fixed
-The argument of inst alg time is must, seed is optional.
