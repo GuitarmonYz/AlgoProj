@@ -23,6 +23,7 @@ java -jar MVC.jar -inst /path/to/graph/jazz.graph -alg LS1 -time 600 -seed 1
 The order of argument is not fixed
 
 The output file is in current directory
+The output file will be appended, not overwritten.
 
 For example, if the graph is in current folder <br />
 java -jar MVC.jar -inst ./jazz.graph -alg LS1 -time 600 -seed 1
