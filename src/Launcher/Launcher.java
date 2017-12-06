@@ -10,6 +10,10 @@ import Graph.Graph;
 import java.io.IOException;
 import java.util.HashSet;
 
+/**
+ * @author Wenqing Shen and Zhao Yan
+ * entry of the whole program
+ */
 public class Launcher {
     public static String input_Filename;
     public static String algorithm_name;
@@ -73,23 +77,10 @@ public class Launcher {
             BBMain Bnb = new BBMain(g,exe.cut_off_time);
             Bnb.getVertexCover();
         }else if (exe.algorithm_name.equals("Approx")){
-
+            APPRO.MDGsolveMVC(exe.input_Filename,exe.algorithm_name, (int)exe.cut_off_time);
         }else{
             System.out.println("Please enter correct algo name.");
         }
-    }
-
-    public void setInput_Filename(String input_Filename){
-        this.input_Filename = input_Filename;
-    }
-    public void setAlgorithm_name(String algorithm_name){
-        this.algorithm_name = algorithm_name;
-    }
-    public void setCut_off_time(int cut_off_time) {
-        this.cut_off_time = cut_off_time;
-    }
-    public void setRandSeedParam(int randSeedParam) {
-        this.randSeedParam = randSeedParam;
     }
 
 }

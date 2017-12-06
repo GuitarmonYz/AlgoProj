@@ -31,7 +31,7 @@ public class Test {
         solWriter.algorithm_name = "bnb";
         solWriter.cut_off_time = 5;
         try{
-            Graph testGraph = GraphUtil.loadGraph("./Data/power.graph");
+            Graph testGraph = GraphUtil.loadGraph("./Data/karate.graph");
             BBMain bnb = new BBMain(testGraph, 5);
             bnb.getVertexCover();
         }catch (IOException ex){

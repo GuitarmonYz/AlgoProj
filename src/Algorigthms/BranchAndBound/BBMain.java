@@ -7,6 +7,10 @@ import Graph.Graph;
 import Graph.GraphUtil;
 import Graph.Edge;
 import Graph.VertexCover;
+
+/**
+ * @author ZhaoYan
+ */
 public class BBMain {
     Graph g;
     PriorityQueue<VertexCover> stateStack;
@@ -31,7 +35,7 @@ public class BBMain {
         boolean[] bestSol = new boolean[]{};
         try {
             while (!stateStack.isEmpty()) {
-                //if (System.nanoTime() >= end) break;
+                if (System.nanoTime() >= end) break;
                 VertexCover curVC = stateStack.poll();
                 HashSet<Edge> unCoveredEdges = new HashSet<>(g.getEdges());
                 HashSet<Integer> unUsedVertices = new HashSet<>();
@@ -39,7 +43,7 @@ public class BBMain {
                 int candidateSize = GraphUtil.getVCInfo(curVC.graphState ,unCoveredEdges, unUsedVertices, g.getAdj());
 
                 while (!unCoveredEdges.isEmpty()) {
-                    //if (System.nanoTime() >= end) break;
+                    if (System.nanoTime() >= end) break;
                     // get node with highestDegree to branch
                     int v = GraphUtil.getHighestDegree(unUsedVertices, unCoveredEdges, g.getAdj());
                     unUsedVertices.remove(v);

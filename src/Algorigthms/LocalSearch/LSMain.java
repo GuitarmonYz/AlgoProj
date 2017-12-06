@@ -5,6 +5,10 @@ import FileUtil.SolWriter;
 import Graph.Graph;
 import Graph.Edge;
 import Graph.IndexMinPQ;
+
+/**
+ * @author WenqingShen
+ */
 public class LSMain {
     //new LS branch
     //LS1 Edge Deletion + delete redundant ==>hill climbing
@@ -81,12 +85,6 @@ public class LSMain {
             }
             if(run) next=false;
         }
-
-
-
-
-
-
         long endTime = System.nanoTime();
         System.out.println("LS2  VC = "+ this.vc.size()+"   Running Time = "+ (endTime-startTime)/1e9 + " s "+checkVC());
 
@@ -97,13 +95,11 @@ public class LSMain {
         curTime2 = System.nanoTime();
         curTime1 = System.nanoTime();
 
-
         startTime = System.nanoTime();
         HashSet<Edge> edges = new HashSet<>(g.getEdges());
         LS1();
         //System.out.println(checkVC());
         calTight();
-
 
         boolean next = true;
         while (next){
@@ -172,11 +168,6 @@ public class LSMain {
             }
             if(run) next=false;
         }
-
-
-
-
-
 
         long endTime = System.nanoTime();
         System.out.println("LS2  VC = "+ this.vc.size()+"   Running Time = "+ (totalTime)/1e9 + " s "+checkVC());

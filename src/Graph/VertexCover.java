@@ -2,6 +2,10 @@ package Graph;
 
 import java.util.Arrays;
 
+/**
+ * @author Zhao Yan
+ * vertex cover to store in branch and bounch algorithm
+ */
 public class VertexCover implements Comparable<VertexCover> {
     public boolean[] graphState;
 
