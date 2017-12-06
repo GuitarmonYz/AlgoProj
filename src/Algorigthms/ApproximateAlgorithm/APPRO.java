@@ -45,7 +45,13 @@ public class APPRO {
         HashMap<String,ArrayList<String>> res = new HashMap<>();
         String[] after_split;
         //String now_dir = System.getProperty("user.dir");
-        String file_path = "./Data/" + real_intput_Filename + ".graph";
+        String file_path;
+        if (real_intput_Filename.split("/").length < 2){
+            file_path = "./Data/" + real_intput_Filename;
+        }else{
+            file_path = real_intput_Filename;
+        }
+
         BufferedReader br = new BufferedReader(new FileReader(new File(file_path)));
 
         String ln = br.readLine();
@@ -72,12 +78,14 @@ public class APPRO {
     }
 
 
-    public static void MDGsolveMVC(int real_cut_off_time) throws IOException{
+    public static void MDGsolveMVC(String real_intput_Filename, int real_cut_off_time) throws IOException{
+        readgraph(real_intput_Filename);
         double running_Time = mdgfind(num_Edges);
         HashSet<Integer> resVC = new HashSet<>();
         for (int i : result_vertex_cover){
             resVC.add(i);
         }
+        System.out.println(resVC.size());
         if(running_Time > real_cut_off_time){
             System.out.println("time out");
         }
@@ -117,7 +125,7 @@ public class APPRO {
 
         }
         long end_time = System.nanoTime();
-        double calculate_time = (end_time - start_time)/1000000;
+        double calculate_time = (end_time - start_time)/1e9;
         return calculate_time;
     }
 }
