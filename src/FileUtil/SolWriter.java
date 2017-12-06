@@ -49,6 +49,7 @@ public class SolWriter {
             }
             sol.close();
         }catch (IOException iex){
+            System.out.println("no such file");
         }
 
 //        String str[] = input_Filename.split("/");

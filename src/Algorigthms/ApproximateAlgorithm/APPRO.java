@@ -5,6 +5,7 @@ import java.util.*;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toMap;
 
+import FileUtil.SolWriter;
 import Graph.Line;
 /**
  * Created by zhangyongzheng on 11/14/17.
@@ -71,30 +72,19 @@ public class APPRO {
     }
 
 
-    public static void MDGsolveMVC(String real_intput_Filename, String real_algorithm_name, int real_cut_off_time) throws IOException{
-        System.out.print(current_Dir);
-        String output_Filepath = current_Dir + "/output/" + real_intput_Filename + "_" + real_algorithm_name + "_" + Integer.toString(real_cut_off_time) + ".sol";
-        String trace_Filepath = current_Dir + "/output/" + real_intput_Filename + "_" + real_algorithm_name + "_" + Integer.toString(real_cut_off_time) + ".trace";
-
-        DFS_output = new PrintWriter(output_Filepath);
-        DFS_trace =new PrintWriter(trace_Filepath);
-
+    public static void MDGsolveMVC(int real_cut_off_time) throws IOException{
         double running_Time = mdgfind(num_Edges);
-
+        HashSet<Integer> resVC = new HashSet<>();
+        for (int i : result_vertex_cover){
+            resVC.add(i);
+        }
         if(running_Time > real_cut_off_time){
-            DFS_trace.printf("Timeout");
-            DFS_output.printf("Timeout");
+            System.out.println("time out");
         }
         else {
-            DFS_output.printf("%d%n",result_vertex_cover.size());
-            for(int k = 0; k<result_vertex_cover.size();k++){
-                DFS_output.printf("%s",result_vertex_cover.get(k));
-                DFS_output.printf(",");
-            }
-            DFS_trace.printf("%s,%s",running_Time,result_vertex_cover.size());
+            SolWriter.writeSol(resVC);
+            SolWriter.writeTrace(running_Time,resVC.size());
         }
-        DFS_output.close();;
-        DFS_trace.close();
     }
 
     public static double mdgfind(int num_Edges){

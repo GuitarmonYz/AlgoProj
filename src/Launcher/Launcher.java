@@ -77,7 +77,7 @@ public class Launcher {
             BBMain Bnb = new BBMain(g,exe.cut_off_time);
             Bnb.getVertexCover();
         }else if (exe.algorithm_name.equals("Approx")){
-            APPRO.MDGsolveMVC(exe.input_Filename,exe.algorithm_name, (int)exe.cut_off_time);
+            APPRO.MDGsolveMVC((int)exe.cut_off_time);
         }else{
             System.out.println("Please enter correct algo name.");
         }
