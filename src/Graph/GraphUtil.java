@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * @author Zhao Yan and Wenqing Shen
+ */
 public class GraphUtil {
     /**
      * Load Graph from file

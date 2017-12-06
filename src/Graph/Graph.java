@@ -3,7 +3,7 @@ package Graph;
 import java.util.*;
 
 /**
- * @author Zhao Yan
+ * @author Zhao Yan and Wenqing Shen
  */
 public class Graph {
     private int V;
@@ -12,8 +12,6 @@ public class Graph {
     private final HashSet<Integer> vertices;
     private final HashSet<Edge> edges;
     private final HashSet<Integer>[] adjV;
-
-
     /**
      * Init default Graph
      * @param V
@@ -47,6 +45,11 @@ public class Graph {
         this.vertices = new HashSet<>(g.vertices);
     }
 
+    /**
+     * given end points add edge to graph
+     * @param u
+     * @param v
+     */
     public void addEdge(int u, int v){
         Edge e = new Edge(u, v);
         adj[u].add(e);
@@ -71,7 +74,6 @@ public class Graph {
      * @return
      */
     public ArrayList<Integer> getAdjV(int curV){
-        //get adjacent vertex array
         ArrayList<Integer> adjV = new ArrayList<>();
         for (Edge e : adj[curV]){
             adjV.add(e.endPoint(curV));
